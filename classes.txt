@@ -1,0 +1,83 @@
+@startuml
+class Estacion
+{
+	-String codigo
+	-String nombre
+	-String localizacion
+	-ArrayList : Puerto puertos
+}
+
+class Puerto
+{
+	-String codigo
+	-ArrayList : Escotilla darsenas
+}
+
+class Escotilla
+{
+	-String codigo
+	-boolean ocupado
+	-String tipo
+}
+
+class Nave
+{
+	-String codigo
+	-String nombre
+	-String tipo
+	-Tripulante capitan
+	-ArrayList : Tripulante tripulantes	
+}
+
+class Cargamento
+{
+	-String codigo
+	-String nombre
+	-String tipo
+	-int peso
+}
+
+class Tripulante
+{
+	-String codigo
+	-String nombre
+	-int edad
+}
+
+class Capitan
+class Empresa
+{
+	-String codigo
+	-String nombre
+}
+
+class EmpresaTransporte
+
+class Info
+{
+}
+
+class Historico
+{
+	-String codNave
+	-Date fechaEntrada
+	-Date fechaSalida
+	-String razon
+}
+
+class Actual
+{
+	-String codNave
+	-Date fechaEntrada
+	-String razon
+}
+
+class NavesConocidas
+{
+}	
+
+class Estaciones
+{
+}
+
+@enduml
