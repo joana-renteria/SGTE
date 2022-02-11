@@ -1,0 +1,144 @@
+@startuml
+package Model <<Folder>>
+{
+
+    package Repository <<Database>> {
+        package estaciones <<Database>>{
+
+        }
+
+        package cargamentos <<Database>>{
+
+        }
+
+        package naves <<Database>>{
+
+        }
+
+        package historico <<Database>>{
+
+        }
+
+        historico -[hidden]d-> naves
+        naves -[hidden]d-> cargamentos
+        cargamentos -[hidden]d-> estaciones 
+    }
+
+    package "Data Mapper" <<Frame>> {
+
+    }  
+
+    package "Domain Objects" <<Frame>> {
+
+        class Historico
+        {
+            - codEstacion : String
+            - codNave : String
+            - horaEntrada : DateTime
+            - horaSalida : DateTime
+            - codDescargado : String
+            - codCargado : String
+            - razon : String
+        }
+        class Estacion
+        {
+            - codigo : String
+            - nombre : String
+            - localizacion : String
+        }
+
+        abstract class Nave
+        {
+            - codigo : String
+            - nombre : String
+            - tripulantes : List<Tripulante>    
+        }
+
+        class NaveCargamento {}
+
+        class NaveMilitar {}
+
+        class NaveTuristica {}
+
+        class Tripulante
+        {
+            - cargo : String
+            - area : String
+        }
+
+        class Cargamento
+        {
+            - codigo : String
+            - nombre : String
+            - tipo : String
+            - peso : float
+        }
+
+        Nave -up-> Historico : es referenciado
+        Estacion -up-> Historico : es referenciado
+        Cargamento -up-> Historico : es referenciado
+
+        Nave "1" o-- "n" Tripulante : tiene
+
+        
+        Nave <|-- NaveCargamento : es
+        Nave <|-- NaveMilitar : es
+        Nave <|-- NaveTuristica : es
+    }
+
+    "Domain Objects" <.. "Data Mapper" : instancia
+    Repository <.. "Data Mapper" : CRUD
+}
+
+package View <<Folder>> {
+    class Menu {}
+    interface Opciones {}
+
+    Menu --* Opciones
+}
+
+package Controller <<Folder>> {
+    class Gestiones {}
+    class MainSGTE {}
+
+    MainSGTE ..> Gestiones
+    Gestiones ..|> Opciones
+}
+    
+
+/'
+class Empresa
+{
+    -String codigo
+    -String nombre
+}
+
+class EmpresaTransporte{
+
+}
+
+class Info
+{
+
+}
+
+class Actual
+{
+    -String codNave
+    -Date fechaEntrada
+    -String razon
+}
+
+class NavesConocidas
+{
+
+}    
+
+class Estaciones
+{
+
+}
+
+Empresa <|-- EmpresaTransporte
+'/
+@enduml
