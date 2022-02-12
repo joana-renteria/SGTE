@@ -1,4 +1,25 @@
-@startuml
+@startuml SGTE
+
+package "View/Controller" <<Folder>> {
+    class Menu {}
+    interface Opciones {}
+
+    Menu -u-* Opciones
+
+    class Gestiones {}
+    class SubGestiones {}
+    class MainSGTE {}
+
+    MainSGTE .r.> Gestiones
+    Gestiones ..|> Opciones
+    Gestiones ..> SubGestiones
+    SubGestiones .l.|> Opciones
+
+    MainSGTE ..> Menu
+}
+
+Model -l[hidden]-> "View/Controller"
+
 package Model <<Folder>>
 {
 
@@ -19,14 +40,15 @@ package Model <<Folder>>
 
         }
 
-        historico -[hidden]d-> naves
-        naves -[hidden]d-> cargamentos
-        cargamentos -[hidden]d-> estaciones 
+        package tripulantes <<Database>>{
+
+        }
+
+        historico -[hidden]l-> naves
+        naves -[hidden]l-> cargamentos
+        cargamentos -[hidden]l-> estaciones
+        estaciones -[hidden]l-> tripulantes
     }
-
-    package "Data Mapper" <<Frame>> {
-
-    }  
 
     package "Domain Objects" <<Frame>> {
 
@@ -86,59 +108,19 @@ package Model <<Folder>>
         Nave <|-- NaveTuristica : es
     }
 
-    "Domain Objects" <.. "Data Mapper" : instancia
-    Repository <.. "Data Mapper" : CRUD
-}
+    Repository -[hidden]-> "Domain Objects"
 
-package View <<Folder>> {
-    class Menu {}
-    interface Opciones {}
-
-    Menu --* Opciones
-}
-
-package Controller <<Folder>> {
-    class Gestiones {}
-    class MainSGTE {}
-
-    MainSGTE ..> Gestiones
-    Gestiones ..|> Opciones
-}
+    class "DataMapper<T>"{
+        - fich : File
+        + addObject(T t) : boolean
+        + readObject(String cod) : T t
+        + updateObject(String cod) : boolean
+        + deleteObject(String cod) : boolean
+    }
     
-
-/'
-class Empresa
-{
-    -String codigo
-    -String nombre
+    "Domain Objects" <.. "DataMapper<T>" : instancia
+    Repository <.. "DataMapper<T>" : CRUD
+    
 }
 
-class EmpresaTransporte{
-
-}
-
-class Info
-{
-
-}
-
-class Actual
-{
-    -String codNave
-    -Date fechaEntrada
-    -String razon
-}
-
-class NavesConocidas
-{
-
-}    
-
-class Estaciones
-{
-
-}
-
-Empresa <|-- EmpresaTransporte
-'/
-@enduml
+SubGestiones ..> "DataMapper<T>"
