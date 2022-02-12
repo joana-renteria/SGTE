@@ -1,8 +1,9 @@
-public class Gestiones implements Opciones{
-    private GestorAlumnos gestor;
+package controller;
+import controller.menu.*;
 
-    public Gestiones(GestorAlumnos gestor){
-        this.gestor = gestor;
+public class Gestiones implements Opciones{
+
+    public Gestiones(){
     }
 
     @Override

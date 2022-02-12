@@ -15,7 +15,7 @@ public class Main {
 
 	static String ficheroHistorico 		= "historico.dat";
 	static String ficheroEstaciones 	= "estaciones.dat";
-	static String ficheroNaves 		= "naves.dat";
+	static String ficheroNaves 			= "naves.dat";
 	static String ficheroCargamento 	= "cargamento.dat";
 	static String ficheroTripulantes	= "tripulantes.dat";
 
@@ -58,7 +58,7 @@ public class Main {
 		for(int i = 0; i < l.size(); i++) {
 			System.out.println((i+1) + ") " + l.get(i));
 		}
-		System.out.println("Qué desea hacer?");
+		System.out.println("Quï¿½ desea hacer?");
 		int input = sc.nextInt();
 		if(input >= 1 && input <= l.size()) {
 			return (input);
