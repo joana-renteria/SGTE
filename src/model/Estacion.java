@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import util.NoExisteException;
 import util.YaExisteException;
 
 public class Estacion {
@@ -36,6 +37,21 @@ public class Estacion {
 			naves.add(nNave.getCodigo());
 		else
 			throw new YaExisteException("nave");
+	}
+	
+	private String buscarNavePorCodigo(String pCodigo) throws NoExisteException {
+		Optional<String> str = naves.stream()
+				.filter(p -> p.equals(pCodigo))
+				.findFirst();
+		return str.get();
+	}
+	
+	private String rmNave(Nave nNave) {
+		if(existeNave(nNave)) {
+			naves.remove(nNave.getCodigo());
+			return nNave.getCodigo();
+		}
+		return null;
 	}
 
 	public String getCodigo() {
