@@ -1,116 +1,137 @@
 package controller;
+import java.util.Arrays;
+import java.util.stream.Stream;
+
 import controller.menu.*;
 
 public class Gestiones implements Opciones{
 
-   	CRUD crudEst = new CRUDEstacion();
-   	CRUD crudNav = new CRUDNave();
-   	CRUD crudCrg = new CRUDCargamento();
-   	CRUD crudTrp = new CRUDTripulante();
-
     public Gestiones(){
+        
     }
 
     @Override
     public void ejecutarByNum(String opc) {
         switch (opc) {
-            case "1": opc_a(); break;
-            case "2": opc_b(); break;
-            case "3": opc_c(); break;
-            case "4": opc_d(); break;
-            case "5": opc_e(); break;
+            case "1": gestionesNaves(); break;
+            case "2": gestionesCargamentos(); break;
+            case "3": gestionesEstaciones(); break;
             default:
                 break;
         }
-    }    
+    }
 
     @Override
     public String[] getDescs() {
         return new String[]{
-				"Gestionar estaciones",
-				"Gestionar naves",
-				"Gestionar cargamento",
-				"Gestionar tripulantes",
-				"Salir"
+            "Gestionar naves.",
+            "Gestionar cargamentos.",
+            "Gestionar estaciones."
         };
-    }
-  
-    public String[] getDescsEstaciones() {
-        return new String[]{
-				"Listar estaciones",
-				"Añadir estacion",
-				"Eliminar Estacion",
-				"Buscar estacion por codigo",
-				"Buscar estacion por nombre",
-				"Buscar estacion por localizacion",
-				"Mostrar historico de una estacion (codigo)",
-				"Gestionar estacion",
-				"Salir"
-        };
-    }
-  
-    public String[] getDescsNaves() {
-        return new String[]{
-				"Listar naves",
-				"Añadir nave",
-				"Eliminar nave",
-				"Buscar nave por nombre",
-				"Buscar nave por codigo",
-				"Mostrar historico de una nave (codigo)",
-				"Gestionar nave",
-				"Salir"
-        };
-    }
-  
-    public String[] getDescsCargamento() {
-        return new String[]{
-				"Listar cargamentos",
-				"Añadir cargamento",
-				"Eliminar cargamento",
-				"Buscar cargamento por codigo",
-				"Mostrar historico de un cargamento (codigo)",
-				"Gestionar cargamento",
-				"Salir"
-        };
-    }
-  
-    public String[] getDescsTripulantes() {
-        return new String[]{
-				"Listar tripulantes",
-				"Añadir tripulante",
-				"Eliminar tripulante",
-				"Buscar tripulante por codigo",
-				"Buscar tripulante por nombre-apellido",
-				"Gestionar tripulante",
-				"Salir"
-        };
-    }
-  
-  // LAS OPCIONES QUE SEAN
-    
-    //Gestionar estaciones
-    private void opc_a() {
-
     }
 
-    //Gestionar naves
-    private void opc_b() {
+    /* ESTACIONES */
+    private void gestionesEstaciones() {
+        GestionesCRUD opciones = new GestionesCRUD("estaciones.") {
+
+            @Override
+            public String[] getDescs() {
+                String[] extDescs = new String[]{
+                    "Añadir una nueva estación.",
+                    "Mostrar registros en el histórico.",
+                    "Mostrar naves acopladas actualmente.",
+                    "Naves acopladas por código.",
+                    "Naves acopladas por nombre.",
+                    "Mostrar cargamento."
+                };
+
+                return Stream.concat(Arrays.stream(descs), Arrays.stream(extDescs))
+                    .toArray(String[]::new);
+            }
+
+            @Override
+            public void extendEjecutarByNum(String opc) {
+                switch (opc) {
+                    case "4": addEstacion(); break; // GestionesCRUD solo tiene 3 opciones por lo que siempre se empieza por 4.
+                    default:
+                        break;
+                }  
+            }
+
+            private void addEstacion() {
+                System.out.println("¡CREANDO NUEVO ESTACIÓN!");
+            }
+        };   
         
+        Menu menu = new Menu(opciones);
+        menu.empezar();
     }
 
-    //Gestionar cargamento
-    private void opc_c() {
+    /* CARGAMENTOS */
+    private void gestionesCargamentos() {
+        GestionesCRUD opciones = new GestionesCRUD("cargamentos.") {
+
+            @Override
+            public String[] getDescs() {
+                String[] extDescs = new String[]{
+                    "Añadir un nuevo cargamento.",
+                    "Mostrar registros en el histórico.",
+                    "Mostrar ruta."
+                };
+
+                return Stream.concat(Arrays.stream(descs), Arrays.stream(extDescs))
+                    .toArray(String[]::new);
+            }
+
+            @Override
+            public void extendEjecutarByNum(String opc) {
+                switch (opc) {
+                    case "4": addHistorico(); break; // GestionesCRUD solo tiene 3 opciones por lo que siempre se empieza por 4.
+                    default:
+                        break;
+                }  
+            }
+
+            private void addHistorico() {
+                System.out.println("¡CREANDO NUEVO CARGAMENTO!");
+            }
+        };   
         
+        Menu menu = new Menu(opciones);
+        menu.empezar();
     }
 
-    // Gestionar tripulantes
-    private void opc_d() {
-       
-    }
+    /* NAVES */
+    private void gestionesNaves() {
+        GestionesCRUD opciones = new GestionesCRUD("naves.") {
 
-    // Salir
-    private void opc_e() {
+            @Override
+            public String[] getDescs() {
+                String[] extDescs = new String[]{
+                    "Añadir una nueva nave.",
+                    "Listar cargamento.",
+                    "Mostrar recorrido."
+                };
+
+                return Stream.concat(Arrays.stream(descs), Arrays.stream(extDescs))
+                    .toArray(String[]::new);
+            }
+
+            @Override
+            public void extendEjecutarByNum(String opc) {
+                switch (opc) {
+                    case "4": addHistorico(); break; // GestionesCRUD solo tiene 3 opciones por lo que siempre se empieza por 4.
+                    default:
+                        break;
+                }  
+            }
+
+            private void addHistorico() {
+                System.out.println("¡CREANDO NUEVO NAVE!");
+            }
+        };   
         
+        Menu menu = new Menu(opciones);
+        menu.empezar();
     }
-
 }
