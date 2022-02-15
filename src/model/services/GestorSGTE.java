@@ -3,7 +3,6 @@ package model.services;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Supplier;
 
 import static java.util.Map.entry;
 
@@ -12,7 +11,6 @@ import model.domainobjects.Estacion;
 import model.domainobjects.Historico;
 import model.domainobjects.Nave;
 import model.domainobjects.SistemaSGTE;
-import model.domainobjects.Tripulante;
 
 public class GestorSGTE<T extends SistemaSGTE> {
 	// Creamos un mapa con las clases y los ficheros correspondientes.
@@ -20,8 +18,7 @@ public class GestorSGTE<T extends SistemaSGTE> {
         entry(Historico.class, new File("historico.dat")),
         entry(Nave.class, new File("naves.dat")),
         entry(Cargamento.class, new File("cargamentos.dat")),
-        entry(Estacion.class, new File("estaciones.dat")),
-        entry(Tripulante.class, new File("tripulantes.dat"))
+        entry(Estacion.class, new File("estaciones.dat"))
     ));
 
 	File fich;

@@ -13,11 +13,9 @@ public class Gestiones implements Opciones{
     @Override
     public void ejecutarByNum(String opc) {
         switch (opc) {
-            case "1": gestionesHistorico(); break;
-            case "2": gestionesNaves(); break;
-            case "3": gestionesCargamentos(); break;
-            case "4": gestionesEstaciones(); break;
-            case "5": gestionesTripulantes(); break; 
+            case "1": gestionesNaves(); break;
+            case "2": gestionesCargamentos(); break;
+            case "3": gestionesEstaciones(); break;
             default:
                 break;
         }
@@ -26,21 +24,59 @@ public class Gestiones implements Opciones{
     @Override
     public String[] getDescs() {
         return new String[]{
-            "Gestionar histórico.",
             "Gestionar naves.",
             "Gestionar cargamentos.",
-            "Gestionar estaciones.",
-            "Gestionar tripulantes."
+            "Gestionar estaciones."
         };
     }
 
-    private void gestionesHistorico() {
-        GestionesCRUD opciones = new GestionesCRUD("histórico.") {
+    /* ESTACIONES */
+    private void gestionesEstaciones() {
+        GestionesCRUD opciones = new GestionesCRUD("estaciones.") {
 
             @Override
             public String[] getDescs() {
                 String[] extDescs = new String[]{
-                    "Añadir un nuevo histórico.",
+                    "Añadir una nueva estación.",
+                    "Mostrar registros en el histórico.",
+                    "Mostrar naves acopladas actualmente.",
+                    "Naves acopladas por código.",
+                    "Naves acopladas por nombre.",
+                    "Mostrar cargamento."
+                };
+
+                return Stream.concat(Arrays.stream(descs), Arrays.stream(extDescs))
+                    .toArray(String[]::new);
+            }
+
+            @Override
+            public void extendEjecutarByNum(String opc) {
+                switch (opc) {
+                    case "4": addEstacion(); break; // GestionesCRUD solo tiene 3 opciones por lo que siempre se empieza por 4.
+                    default:
+                        break;
+                }  
+            }
+
+            private void addEstacion() {
+                System.out.println("¡CREANDO NUEVO ESTACIÓN!");
+            }
+        };   
+        
+        Menu menu = new Menu(opciones);
+        menu.empezar();
+    }
+
+    /* CARGAMENTOS */
+    private void gestionesCargamentos() {
+        GestionesCRUD opciones = new GestionesCRUD("cargamentos.") {
+
+            @Override
+            public String[] getDescs() {
+                String[] extDescs = new String[]{
+                    "Añadir un nuevo cargamento.",
+                    "Mostrar registros en el histórico.",
+                    "Mostrar ruta."
                 };
 
                 return Stream.concat(Arrays.stream(descs), Arrays.stream(extDescs))
@@ -57,22 +93,45 @@ public class Gestiones implements Opciones{
             }
 
             private void addHistorico() {
-                System.out.println("¡CREANDO NUEVO HISTÓRICO!");
+                System.out.println("¡CREANDO NUEVO CARGAMENTO!");
             }
         };   
-
-        (new Menu(opciones)).empezar();
+        
+        Menu menu = new Menu(opciones);
+        menu.empezar();
     }
 
-    private void gestionesTripulantes() {
-    }
-
-    private void gestionesEstaciones() {
-    }
-
-    private void gestionesCargamentos() {
-    }
-
+    /* NAVES */
     private void gestionesNaves() {
+        GestionesCRUD opciones = new GestionesCRUD("naves.") {
+
+            @Override
+            public String[] getDescs() {
+                String[] extDescs = new String[]{
+                    "Añadir una nueva nave.",
+                    "Listar cargamento.",
+                    "Mostrar recorrido."
+                };
+
+                return Stream.concat(Arrays.stream(descs), Arrays.stream(extDescs))
+                    .toArray(String[]::new);
+            }
+
+            @Override
+            public void extendEjecutarByNum(String opc) {
+                switch (opc) {
+                    case "4": addHistorico(); break; // GestionesCRUD solo tiene 3 opciones por lo que siempre se empieza por 4.
+                    default:
+                        break;
+                }  
+            }
+
+            private void addHistorico() {
+                System.out.println("¡CREANDO NUEVO NAVE!");
+            }
+        };   
+        
+        Menu menu = new Menu(opciones);
+        menu.empezar();
     }
 }

@@ -7,8 +7,7 @@ public class Nave implements Serializable, SistemaSGTE{
 	private String codigo;
 	private String nombre;
 	
-	public Nave(String pCodigo,
-			String pNombre) {
+	public Nave(String pCodigo, String pNombre) {
 		this.codigo = pCodigo;
 		this.nombre = pNombre;
 	}
@@ -21,8 +20,8 @@ public class Nave implements Serializable, SistemaSGTE{
 		return this.nombre;
 	}
 	
-	private void setNombre(String pNombre) {
-		this.nombre = pNombre;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
 }

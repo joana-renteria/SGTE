@@ -12,7 +12,7 @@ public class Menu {
     private static Scanner sc;
 
     public Menu(Opciones opciones){
-        this.sc = new Scanner(System.in);
+        Menu.sc = new Scanner(System.in);
         this.opciones = opciones;
         this.descs = opciones.getDescs();
     }
