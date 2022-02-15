@@ -1,6 +1,8 @@
-package model;
+package model.domainobjects;
 
-public class Nave {
+import java.io.Serializable;
+
+public class Nave implements Serializable, SistemaSGTE{
 	
 	private String codigo;
 	private String nombre;

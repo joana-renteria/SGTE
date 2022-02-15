@@ -1,6 +1,8 @@
-package model;
+package model.domainobjects;
 
-public class Cargamento {
+import java.io.Serializable;
+
+public class Cargamento implements Serializable, SistemaSGTE{
 	
 	private String codigo;
 	private String descripcion;

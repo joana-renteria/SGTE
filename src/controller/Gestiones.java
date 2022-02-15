@@ -1,72 +1,78 @@
 package controller;
+import java.util.Arrays;
+import java.util.stream.Stream;
+
 import controller.menu.*;
 
 public class Gestiones implements Opciones{
 
     public Gestiones(){
+        
     }
 
     @Override
     public void ejecutarByNum(String opc) {
         switch (opc) {
-            case "1": opc_a(); break;
-            case "2": opc_b(); break;
-            case "3": opc_c(); break;
-            case "4": opc_d(); break;
-            case "5": opc_e(); break;
-            case "6": opc_f(); break;
-            case "7": opc_g(); break;
-            case "8": opc_h(); break;
-            case "9": opc_i(); break;
+            case "1": gestionesHistorico(); break;
+            case "2": gestionesNaves(); break;
+            case "3": gestionesCargamentos(); break;
+            case "4": gestionesEstaciones(); break;
+            case "5": gestionesTripulantes(); break; 
             default:
                 break;
         }
-    }    
+    }
 
     @Override
     public String[] getDescs() {
         return new String[]{
-            "Opcion 1",
-            "Opcion 2" // añadir más.
+            "Gestionar histórico.",
+            "Gestionar naves.",
+            "Gestionar cargamentos.",
+            "Gestionar estaciones.",
+            "Gestionar tripulantes."
         };
     }
-  
-  // LAS OPCIONES QUE SEAN
-    
-    private void opc_a() {
-        
+
+    private void gestionesHistorico() {
+        GestionesCRUD opciones = new GestionesCRUD("histórico.") {
+
+            @Override
+            public String[] getDescs() {
+                String[] extDescs = new String[]{
+                    "Añadir un nuevo histórico.",
+                };
+
+                return Stream.concat(Arrays.stream(descs), Arrays.stream(extDescs))
+                    .toArray(String[]::new);
+            }
+
+            @Override
+            public void extendEjecutarByNum(String opc) {
+                switch (opc) {
+                    case "4": addHistorico(); break; // GestionesCRUD solo tiene 3 opciones por lo que siempre se empieza por 4.
+                    default:
+                        break;
+                }  
+            }
+
+            private void addHistorico() {
+                System.out.println("¡CREANDO NUEVO HISTÓRICO!");
+            }
+        };   
+
+        (new Menu(opciones)).empezar();
     }
 
-    private void opc_b() {
-        
+    private void gestionesTripulantes() {
     }
 
-    private void opc_c() {
-        
+    private void gestionesEstaciones() {
     }
 
-    private void opc_d() {
-       
+    private void gestionesCargamentos() {
     }
 
-    private void opc_e() {
-        
-    }
-
-    private void opc_f() {
-        
-    }
-
-    private void opc_g() {
-        
-    }
-
-    private void opc_h() {
-        
-    }
-
-    private void opc_i() {
-        
-        
+    private void gestionesNaves() {
     }
 }

@@ -1,11 +1,12 @@
-package model;
+package model.domainobjects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Optional;
 
 import util.YaExisteException;
 
-public class Estacion {
+public class Estacion implements Serializable, SistemaSGTE{
 	
 	private String codigo;
 	private String nombre;

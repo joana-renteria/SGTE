@@ -1,7 +1,9 @@
-package model;
+package model.domainobjects.naves;
 
 import java.util.ArrayList;
 import java.util.Optional;
+
+import model.domainobjects.*;
 
 public class NaveCargamento extends Nave {
 	
