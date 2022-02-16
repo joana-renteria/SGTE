@@ -42,6 +42,7 @@ public class GestionesEstacion implements Opciones {
 	}
 
 	public void mostrarRegistros() {
+		gestorHistorico.listAll();
 	}
 
 	public void listarNavesAcopladas() {

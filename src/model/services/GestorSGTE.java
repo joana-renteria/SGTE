@@ -68,6 +68,34 @@ public class GestorSGTE<T extends SistemaSGTE> {
 
 		return added;
 	}
+	
+	public void listAll() {
+		boolean fichExiste = fich.exists(); // Comprobamos si existe antes de hacer nada con él.
+
+		try {
+			// Se inicializan los Stream como si el archivo existiera para no sobreescribir en caso de que lo hiciera.
+			FileInputStream fos = new FileInputStream(fich);
+			ObjectInputStream oos = new ObjectInputStream(fos);
+
+			// Si es que no existe se crea.
+			if(!fichExiste){
+				fos = new FileInputStream(fich); 
+				oos = new ObjectInputStream(fos);
+			}
+
+			oos.readObject();
+
+			oos.close();
+			fos.close();
+		
+		} catch (ClassNotFoundException c) {
+			System.out.println("Error, no se ha encontrado la clase del objeto.");
+			
+		} catch (IOException e) {
+			System.out.println("Error, no se ha podido leer el objeto.");
+		}
+
+	}
 
 	// Devuelve el objeto a buscar por su código.
 	public T readObject(String cod){
