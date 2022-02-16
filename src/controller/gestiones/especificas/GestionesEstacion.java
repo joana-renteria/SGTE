@@ -1,13 +1,17 @@
 package controller.gestiones.especificas;
 
+import java.io.File;
+
 import controller.menu.Opciones;
+import model.domainobjects.Historico;
+import model.services.GestorSGTE;
 
 public class GestionesEstacion implements Opciones {
 	
 	public static GestorSGTE<Historico> gestorHistorico;
 	
-	public GestionesEstaciones() {
-		gestorHistorico = new GestorSGTE(new File("historico.dat"));
+	public GestionesEstacion() {
+		gestorHistorico = new GestorSGTE<>(new File("historico.dat"));
 	}
 
 	@Override
