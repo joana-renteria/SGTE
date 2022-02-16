@@ -38,11 +38,6 @@ public class GestionesSGTE implements Opciones{
             public String[] getDescs() {
                 String[] extDescs = new String[]{
                     "Añadir una nueva estación.",
-                    "Mostrar registros en el histórico.",
-                    "Mostrar naves acopladas actualmente.",
-                    "Naves acopladas por código.",
-                    "Naves acopladas por nombre.",
-                    "Mostrar cargamento."
                 };
 
                 return Stream.concat(Arrays.stream(descs), Arrays.stream(extDescs))
