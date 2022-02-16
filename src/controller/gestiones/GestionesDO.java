@@ -1,12 +1,12 @@
-package controller;
+package controller.gestiones;
 
 import controller.menu.Opciones;
 
-public abstract class GestionesCRUD implements Opciones{
+public abstract class GestionesDO implements Opciones{
     String nombreClase;
     String[] descs;
 
-    public GestionesCRUD(String nombreClase){
+    public GestionesDO(String nombreClase){
         this.nombreClase = nombreClase;
         descs = new String[]{
             "Leer un " + nombreClase,
@@ -16,9 +16,15 @@ public abstract class GestionesCRUD implements Opciones{
     }
 
     /* MÉTODOS ABSTRACTOS */
-    public abstract void extendEjecutarByNum(String opc); // Este método contendrás más opciones especificas de la clase.
+     
+    public abstract void addDO(); // setDatos().
 
     /* IMPLEMENTACIONES */
+    public void extendEjecutarByNum(String opc){
+        // Este método contendrás más opciones especificas de la clase.
+        // No implementamos ningún cuerpo para que no interfiera con el funcionamiento de las otras clases.
+        // Puede ser sobreescrita por la implementación.
+    }
     
     // Hacemos override de getDescs() en la implementación cuando hayamos añadido las nuevas opciones a descs (si es que las hay);
     @Override
