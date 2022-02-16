@@ -33,11 +33,12 @@ public class GestorSGTE<T extends SistemaSGTE> {
 	File fich;
 
 	public GestorSGTE(File fich) {	
-		fich = this.fich;
+		this.fich = fich;
 	}
 
 	// Devuelve true si ha podido añadirse, false si no.
 	public boolean addObject(T t){
+		boolean fichExiste = fich.exists(); // Comprobamos si existe antes de hacer nada con él.
 		boolean added = false;
 
 		try {
@@ -50,7 +51,7 @@ public class GestorSGTE<T extends SistemaSGTE> {
 			};
 
 			// Si es que no existe se crea.
-			if(!fich.exists()){
+			if(!fichExiste){
 				fos = new FileOutputStream(fich); 
 				oos = new ObjectOutputStream(fos);
 			}
@@ -84,7 +85,7 @@ public class GestorSGTE<T extends SistemaSGTE> {
 		return false;
 	}
 
-	public List<T> matchObject(Function<T, Boolean> func){
+	public List<T> findObject(Function<T, Boolean> func){
 		List<T> lista = new ArrayList<T>();
 
 		try {
@@ -93,17 +94,20 @@ public class GestorSGTE<T extends SistemaSGTE> {
 
 			T obj;
 
-			try {
-				obj = (T) oos.readObject();
-				if (func.apply(obj)) lista.add(obj);
+			try {	
+				for(;;){
+					obj = (T) oos.readObject();
+					if (func.apply(obj)) lista.add(obj);
+				}
 			} catch (EOFException e) {
 				// Se han leído todos los objetos del archivo.
+				oos.close();
+				fis.close();
 			}
 		} catch (IOException | ClassNotFoundException e) {
 			System.out.println("Error, no han podido leerse objetos.");
 		}
-
+		
 		return lista;
 	}
-
 }

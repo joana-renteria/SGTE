@@ -7,7 +7,6 @@ public class GestionesCargamento implements Opciones {
 	@Override
 	public void ejecutarByNum(String opc) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -15,5 +14,4 @@ public class GestionesCargamento implements Opciones {
 		// TODO Auto-generated method stub
 		return null;
 	}
-    
 }

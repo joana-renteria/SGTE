@@ -10,8 +10,7 @@ public class Cargamento implements Serializable, SistemaSGTE{
 	private double peso;
 	private boolean peligroso;
 	
-	public Cargamento(String pCodigo, String pDescripcion,
-			String pTipo, double pPeso, boolean pPeligroso) {
+	public Cargamento(String pCodigo, String pDescripcion, String pTipo, double pPeso, boolean pPeligroso) {
 		this.codigo = pCodigo;
 		this.descripcion = pDescripcion;
 		this.tipo = pTipo;
