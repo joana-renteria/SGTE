@@ -13,7 +13,7 @@ public class Nave implements Serializable, SistemaSGTE{
 	}
 
 	public String toString(){
-		return "Código: " + codigo + "\n"
+		return "Código: " + codigo + "\t"
 			+ "Nombre: " + nombre;
 	}
 	
@@ -29,4 +29,7 @@ public class Nave implements Serializable, SistemaSGTE{
 		this.nombre = nombre;
 	}
 
+	public Nave name() {
+		return new Nave(pCodigo);
+	}
 }

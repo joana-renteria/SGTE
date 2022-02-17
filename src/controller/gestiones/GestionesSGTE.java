@@ -5,6 +5,7 @@ import java.util.stream.Stream;
 import controller.gestiones.especificas.GestionesEstacion;
 import controller.menu.*;
 import model.domainobjects.Estacion;
+import model.domainobjects.Nave;
 import model.services.GestorSGTE;
 
 public class GestionesSGTE implements Opciones{
@@ -35,7 +36,7 @@ public class GestionesSGTE implements Opciones{
 
     /* NAVES */
     private void gestionesNaves() {
-        GestionesDO opciones = new GestionesDO("nave.") {
+        GestionesDO<Nave> opciones = new GestionesDO<>("nave.") {
 
             @Override
             public String[] getDescs() {
@@ -59,7 +60,7 @@ public class GestionesSGTE implements Opciones{
             }
 
             @Override
-            public void addDO() {
+            public Nave inputDatos() {
                 // TODO Auto-generated method stub
                 System.out.println("¡CREANDO NUEVO NAVE!");                
             }

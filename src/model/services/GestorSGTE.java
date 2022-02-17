@@ -39,19 +39,23 @@ public class GestorSGTE {
 	}
 
 	// Función que sirve para buscar un objeto de tipo 
-	public static List<Object> findObject(File fich, Function<Object, Boolean> func){
-		List<Object> lista = new ArrayList<>();
+	public static void printObject(File fich, Function<Object, Boolean> func){
 
 		try {
 			FileInputStream fis = new FileInputStream(fich);
 			ObjectInputStream oos = new ObjectInputStream(fis);
 
 			Object obj;
+			
+			boolean continuar = true;
 
-			try {	
-				for(;;){
+			try {
+				while(continuar){
 					obj = oos.readObject();
-					if (func.apply(obj)) lista.add(obj); // Se añade si la condición se cumple para el objeto actual.
+					if (func.apply(obj)) {
+						System.out.println(obj);
+						continuar = false;
+					}; // Se añade si la condición se cumple para el objeto actual.
 				}
 			} catch (EOFException e) {
 				// Se han leído todos los objetos del archivo.
@@ -62,7 +66,35 @@ public class GestorSGTE {
 			System.out.println("Error, no han podido leerse objetos.");
 		}
 		
-		return lista;
+	}
+
+	// Función que sirve para buscar varios objetos de tipo 
+	public static void printObjects(File fich, Function<Object, Boolean> func){
+
+		try {
+			FileInputStream fis = new FileInputStream(fich);
+			ObjectInputStream oos = new ObjectInputStream(fis);
+
+			Object obj;
+			
+			boolean continuar = true;
+
+			try {
+				for(;;){
+					obj = oos.readObject();
+					if (func.apply(obj)) {
+						System.out.println(obj);
+					}; // Se añade si la condición se cumple para el objeto actual.
+				}
+			} catch (EOFException e) {
+				// Se han leído todos los objetos del archivo.
+				oos.close();
+				fis.close();
+			}
+		} catch (IOException | ClassNotFoundException e) {
+			System.out.println("Error, no han podido leerse objetos.");
+		}
+		
 	}
 
 	// Devuelve true si ha podido añadirse, false si no.
@@ -102,76 +134,59 @@ public class GestorSGTE {
 
 		return added;
 	}
-	
-	public void listAll() {
-		boolean fichExiste = fich.exists(); // Comprobamos si existe antes de hacer nada con él.
+
+	public static void fileManipulation(File fich, Function<Object, Boolean> func){
+
+		File auxFich = new File("." + fich.getPath() + ".sgteman");
 
 		try {
-			// Se inicializan los Stream como si el archivo existiera para no sobreescribir en caso de que lo hiciera.
-			FileInputStream fos = new FileInputStream(fich);
-			ObjectInputStream oos = new ObjectInputStream(fos);
+			FileOutputStream fos = new FileOutputStream(auxFich);
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
 
-			// Si es que no existe se crea.
-			if(!fichExiste){
-				fos = new FileInputStream(fich); 
-				oos = new ObjectInputStream(fos);
+			try {
+				FileInputStream fis = new FileInputStream(fich);
+				ObjectInputStream ois = new ObjectInputStream(fis);
+	
+				Object obj;
+	
+				try {
+					for(;;){
+						obj = ois.readObject();
+						if (func.apply(obj)) {
+							
+						}; // Se añade si la condición se cumple para el objeto actual.
+					}
+				} catch (EOFException e) {
+					// Se han leído todos los objetos del archivo.
+					ois.close();
+					fis.close();
+				}
+			} catch (IOException | ClassNotFoundException e) {
+				System.out.println("Error, no han podido leerse objetos.");
 			}
-
-			oos.readObject();
 
 			oos.close();
 			fos.close();
-		
-		} catch (ClassNotFoundException c) {
-			System.out.println("Error, no se ha encontrado la clase del objeto.");
-			
-		} catch (IOException e) {
-			System.out.println("Error, no se ha podido leer el objeto.");
+
+		} catch (IOException e1) {
+			System.out.println("No se ha podido cambiar el archivo.");
 		}
 
+		
 	}
 
 	// Devuelve true si ha podido realizar reemplazar el objeto.
 	public boolean replaceObject(File fich, Function<Object, Boolean> func, Object obj){
-
-		boolean fichExiste = fich.exists(); // Comprobamos si existe antes de hacer nada con él.
-		boolean added = false;
-
-		try {
-			FileOutputStream fos = new FileOutputStream(new File("." + fich.getParent() + ".repl")); // Creamos un nuevo archivo al que pasar los objetos.
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
-
-			oos.writeObject(obj);
-
-			oos.close();
-			fos.close();
-			
-			added = true;
-		} catch (IOException e) {
-			System.out.println("Error, no ha podido reemplazarse el objeto.");
-		}
-
-		return added;
+		return false;
 	}
 
 	// Devuelve true si ha podido eliminarlo, false si no.
 	public boolean deleteObject(File fich, Function<Object, Boolean> func){
-		boolean added = false;
-
-		try {
-			FileOutputStream fos = new FileOutputStream(new File("." + fich.getParent() + ".gest")); // Creamos un nuevo archivo al que pasar los objetos.
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
-
-			oos.writeObject(obj);
-
-			oos.close();
-			fos.close();
-			
-			added = true;
-		} catch (IOException e) {
-			System.out.println("Error, no ha podido reemplazarse el objeto.");
-		}
-
-		return added;
+		return false;
 	}
+
+	// Creamos una clase igual que BiConsumer pero que lance las excepciones que vamos a utilizar.
+    public interface ThrowerBiConsumer<T, U> {
+        void accept(T t, U u) throws ClassNotFoundException, IOException, EOFException;
+    }
 }
