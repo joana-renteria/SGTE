@@ -40,14 +40,9 @@ package Model <<Folder>>
 
         }
 
-        package tripulantes <<Database>>{
-
-        }
-
         historico -[hidden]l-> naves
         naves -[hidden]l-> cargamentos
         cargamentos -[hidden]l-> estaciones
-        estaciones -[hidden]l-> tripulantes
     }
 
     package "Domain Objects" <<Frame>> {
