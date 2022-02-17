@@ -1,17 +1,13 @@
 package controller.gestiones.especificas;
 
-import java.io.File;
-
 import controller.menu.Opciones;
-import model.domainobjects.Historico;
+import model.domainobjects.Estacion;
 import model.services.GestorSGTE;
 
 public class GestionesEstacion implements Opciones {
 	
-	public static GestorSGTE<Historico> gestorHistorico;
-	
 	public GestionesEstacion() {
-		gestorHistorico = new GestorSGTE<>(new File("historico.dat"));
+		// Añadir los gestores que fueran necesarios para operar en cada archivo.
 	}
 
 	@Override
@@ -36,7 +32,7 @@ public class GestionesEstacion implements Opciones {
 				"Buscar naves acopladas por código.",
 				"Buscar naves acopladas por nombre.",
 				"Mostrar cargamento.",
-				"Buscar cargamento por codigo"
+				"Buscar cargamento por código."
 		};
 		return extDescs;
 	}
@@ -58,11 +54,11 @@ public class GestionesEstacion implements Opciones {
 	}
 
 	public void mostrarCargamento() {
-		
+
 	}
 	
 	public void buscarCargamento() {
-		
+
 	}
 
 }

@@ -2,7 +2,7 @@ package controller.gestiones;
 
 import controller.menu.Opciones;
 
-public abstract class GestionesDO implements Opciones{
+public abstract class GestionesDO<T> implements Opciones{
     String nombreClase;
     String[] descs;
 
@@ -17,16 +17,16 @@ public abstract class GestionesDO implements Opciones{
 
     /* MÉTODOS ABSTRACTOS */
      
-    public abstract void addDO(); // setDatos().
+    public abstract T inputDatos(); // Método que pide al usuario rellenar los datos de un objeto y devuleve le objeto.
 
     /* IMPLEMENTACIONES */
     public void extendEjecutarByNum(String opc){
         // Este método contendrás más opciones especificas de la clase.
-        // No implementamos ningún cuerpo para que no interfiera con el funcionamiento de las otras clases.
-        // Puede ser sobreescrita por la implementación.
+        // No escribimos nada en el cuerpo para que no interfiera con el funcionamiento de las otras clases.
+        // Tiene que ser sobrecargada para implementar más opciones.
     }
     
-    // Hacemos override de getDescs() en la implementación cuando hayamos añadido las nuevas opciones a descs (si es que las hay);
+    // Hacemos override de getDescs() en la herencia cuando hayamos añadido las nuevas opciones a descs (si es que las hay);
     @Override
     public String[] getDescs() {
         return descs;
@@ -35,22 +35,22 @@ public abstract class GestionesDO implements Opciones{
     @Override
     public void ejecutarByNum(String opc) {
         switch (opc) {
-            case "1": readObj(); break;
-            case "2": updateObj(); break;
-            case "3": deleteObj(); break;
+            case "1": mostrarObjByCodigo(); break;
+            case "2": replaceObjByCodigo(); break;
+            case "3": deleteObjByCodigo(); break;
             default: extendEjecutarByNum(opc); // De este modo podremos implementar más opciones.
                 break;
         }
-    } 
+    }
 
     // TODO: ACABAR
-    private void readObj() {
+    private void mostrarObjByCodigo() {
     }
 
-    private void updateObj() {
+    private void replaceObjByCodigo() {
     }
 
-    private void deleteObj() {
-    }
-
+    private void deleteObjByCodigo() {
+    } 
+    
 }

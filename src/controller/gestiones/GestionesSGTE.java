@@ -2,7 +2,10 @@ package controller.gestiones;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
+import controller.gestiones.especificas.GestionesEstacion;
 import controller.menu.*;
+import model.domainobjects.Estacion;
+import model.services.GestorSGTE;
 
 public class GestionesSGTE implements Opciones{
 
@@ -30,14 +33,16 @@ public class GestionesSGTE implements Opciones{
         };
     }
 
-    /* ESTACIONES */
-    private void gestionesEstaciones() {
-        GestionesDO opciones = new GestionesDO("estaciones.") {
+    /* NAVES */
+    private void gestionesNaves() {
+        GestionesDO opciones = new GestionesDO("nave.") {
 
             @Override
             public String[] getDescs() {
                 String[] extDescs = new String[]{
-                    "Añadir una nueva estación.",
+                    "Añadir una nueva nave.",
+                    "Listar cargamento.",
+                    "Mostrar recorrido."
                 };
 
                 return Stream.concat(Arrays.stream(descs), Arrays.stream(extDescs))
@@ -48,11 +53,6 @@ public class GestionesSGTE implements Opciones{
             public void extendEjecutarByNum(String opc) {
                 switch (opc) {
                     case "4": addDO(); break; // GestionesCRUD solo tiene 3 opciones por lo que siempre se empieza por 4.
-                    case "5": mostrarRegistros(); break;
-                    case "6": navesAcopladas(); break;
-                    case "7": navesAcopladasByCodigo(); break;
-                    case "8": navesAcopladasByNombre(); break;
-                    case "9": mostrarCargamento(); break;
                     default:
                         break;
                 }  
@@ -60,27 +60,9 @@ public class GestionesSGTE implements Opciones{
 
             @Override
             public void addDO() {
-                // TODO SETDATOS
-                System.out.println("¡CREANDO NUEVO ESTACIÓN!");
+                // TODO Auto-generated method stub
+                System.out.println("¡CREANDO NUEVO NAVE!");                
             }
-
-            // GESTIONES ESPECÍFICAS
-            private void mostrarRegistros() {
-            }
-
-            private void navesAcopladas() {
-            }
-
-            private void navesAcopladasByCodigo() {
-            }
-
-            private void navesAcopladasByNombre() {
-            }
-
-            private void mostrarCargamento() {
-            }
-
-            
         };   
         
         Menu menu = new Menu(opciones);
@@ -89,7 +71,7 @@ public class GestionesSGTE implements Opciones{
 
     /* CARGAMENTOS */
     private void gestionesCargamentos() {
-        GestionesDO opciones = new GestionesDO("cargamentos.") {
+        GestionesDO opciones = new GestionesDO("cargamento.") {
 
             @Override
             public String[] getDescs() {
@@ -123,16 +105,15 @@ public class GestionesSGTE implements Opciones{
         menu.empezar();
     }
 
-    /* NAVES */
-    private void gestionesNaves() {
-        GestionesDO opciones = new GestionesDO("naves.") {
+    /* ESTACIONES */
+    private void gestionesEstaciones() {
+        GestionesDO<Estacion> opciones = new GestionesDO<>("estación.") {
 
             @Override
             public String[] getDescs() {
                 String[] extDescs = new String[]{
-                    "Añadir una nueva nave.",
-                    "Listar cargamento.",
-                    "Mostrar recorrido."
+                    "Añadir una nueva estación.",
+                    "Gestiones específicas."
                 };
 
                 return Stream.concat(Arrays.stream(descs), Arrays.stream(extDescs))
@@ -142,17 +123,25 @@ public class GestionesSGTE implements Opciones{
             @Override
             public void extendEjecutarByNum(String opc) {
                 switch (opc) {
-                    case "4": addDO(); break; // GestionesCRUD solo tiene 3 opciones por lo que siempre se empieza por 4.
+                    case "4": (new  GestorSGTE()).addObject(inputDatos()); break; // GestionesCRUD solo tiene 3 opciones por lo que siempre se empieza por 4.
+                    case "5": gestionesEspecificas(); break;
                     default:
                         break;
                 }  
             }
 
             @Override
-            public void addDO() {
-                // TODO Auto-generated method stub
-                System.out.println("¡CREANDO NUEVO NAVE!");                
+            public Estacion inputDatos() {
+                // TODO SETDATOS
+                System.out.println("¡CREANDO NUEVO ESTACIÓN!");
+
+                return null;
             }
+
+            // GESTIONES ESPECÍFICAS
+            private void gestionesEspecificas() {
+                (new Menu(new GestionesEstacion())).empezar(); // Instanciamos el menú y las opciones de forma anónima.
+            }                      
         };   
         
         Menu menu = new Menu(opciones);
