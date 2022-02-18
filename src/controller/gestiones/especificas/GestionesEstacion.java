@@ -1,13 +1,16 @@
 package controller.gestiones.especificas;
 
+import java.io.File;
+
 import controller.menu.Opciones;
-import model.domainobjects.Estacion;
-import model.services.GestorSGTE;
+import model.domainobjects.*;
+import model.services.*;
+import util.Util;
 
 public class GestionesEstacion implements Opciones {
-	
+
 	public GestionesEstacion() {
-		// Añadir los gestores que fueran necesarios para operar en cada archivo.
+
 	}
 
 	@Override
@@ -36,13 +39,30 @@ public class GestionesEstacion implements Opciones {
 		};
 		return extDescs;
 	}
+	
+	private String pedirCodigo() {
+		System.out.println("Introduce el codigo de la estación: ");
+		return Util.introducirCadena();
+	}
 
 	public void mostrarRegistros() {
-		
+		GestorArchivos.fileIteratior(new File("historico.dat"),
+				(p -> {
+					if (Historico.class.cast(p)
+						.getCodEstacion().equals(pedirCodigo()))
+						System.out.println(p);
+				}));
 	}
 
 	public void listarNavesAcopladas() {
-		
+		GestorArchivos.fileIteratior(new File("historico.dat"),
+				(p -> {
+					if (Historico.class.cast(p)
+						.getCodEstacion().equals(pedirCodigo()))
+						if(Historico.class.cast(p)
+								.getHoraSalida().equals(null))
+									System.out.println(p.getCodNave());
+				}));
 	}
 
 	public void buscarNavesAcopladasByCodigo() {
