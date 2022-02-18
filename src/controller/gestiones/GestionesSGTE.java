@@ -2,8 +2,11 @@ package controller.gestiones;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
+import controller.gestiones.especificas.GestionesCargamento;
 import controller.gestiones.especificas.GestionesEstacion;
+import controller.gestiones.especificas.GestionesNave;
 import controller.menu.*;
+import model.domainobjects.Cargamento;
 import model.domainobjects.Estacion;
 import model.domainobjects.Nave;
 import model.services.GestorSGTE;
@@ -42,8 +45,7 @@ public class GestionesSGTE implements Opciones{
             public String[] getDescs() {
                 String[] extDescs = new String[]{
                     "Añadir una nueva nave.",
-                    "Listar cargamento.",
-                    "Mostrar recorrido."
+                    "Gestiones específicas."
                 };
 
                 return Stream.concat(Arrays.stream(descs), Arrays.stream(extDescs))
@@ -53,7 +55,8 @@ public class GestionesSGTE implements Opciones{
             @Override
             public void extendEjecutarByNum(String opc) {
                 switch (opc) {
-                    case "4": addDO(); break; // GestionesCRUD solo tiene 3 opciones por lo que siempre se empieza por 4.
+                    case "4": inputDatos(); break; // GestionesCRUD solo tiene 3 opciones por lo que siempre se empieza por 4.
+                    case "5": (new Menu(new GestionesNave())).empezar(); break; // Comenzar las gestiones específicas de las naves.
                     default:
                         break;
                 }  
@@ -61,8 +64,9 @@ public class GestionesSGTE implements Opciones{
 
             @Override
             public Nave inputDatos() {
-                // TODO Auto-generated method stub
-                System.out.println("¡CREANDO NUEVO NAVE!");                
+                // ACABAR
+                System.out.println("¡CREANDO NUEVO NAVE!"); 
+                return null;               
             }
         };   
         
@@ -72,14 +76,13 @@ public class GestionesSGTE implements Opciones{
 
     /* CARGAMENTOS */
     private void gestionesCargamentos() {
-        GestionesDO opciones = new GestionesDO("cargamento.") {
+        GestionesDO<Cargamento> opciones = new GestionesDO<>("cargamento.") {
 
             @Override
             public String[] getDescs() {
                 String[] extDescs = new String[]{
                     "Añadir un nuevo cargamento.",
-                    "Mostrar registros en el histórico.",
-                    "Mostrar ruta."
+                    "Gestiones específicas."
                 };
 
                 return Stream.concat(Arrays.stream(descs), Arrays.stream(extDescs))
@@ -89,16 +92,18 @@ public class GestionesSGTE implements Opciones{
             @Override
             public void extendEjecutarByNum(String opc) {
                 switch (opc) {
-                    case "4": addDO(); break; // GestionesCRUD solo tiene 3 opciones por lo que siempre se empieza por 4.
+                    case "4": inputDatos(); break; // GestionesCRUD solo tiene 3 opciones por lo que siempre se empieza por 4.
+                    case "5": (new Menu(new GestionesCargamento())).empezar(); break;
                     default:
                         break;
                 }  
             }
 
             @Override
-            public void addDO() {
-                // TODO Auto-generated method stub
+            public Cargamento inputDatos() {
+                // IMPLEMENTAR
                 System.out.println("¡CREANDO NUEVO CARGAMENTO!");
+                return null;
             }
         };   
         
@@ -124,8 +129,8 @@ public class GestionesSGTE implements Opciones{
             @Override
             public void extendEjecutarByNum(String opc) {
                 switch (opc) {
-                    case "4": (new  GestorSGTE()).addObject(inputDatos()); break; // GestionesCRUD solo tiene 3 opciones por lo que siempre se empieza por 4.
-                    case "5": gestionesEspecificas(); break;
+                    case "4": inputDatos(); break; // GestionesCRUD solo tiene 3 opciones por lo que siempre se empieza por 4.
+                    case "5": (new Menu(new GestionesEstacion())).empezar(); break;
                     default:
                         break;
                 }  
@@ -135,14 +140,8 @@ public class GestionesSGTE implements Opciones{
             public Estacion inputDatos() {
                 // TODO SETDATOS
                 System.out.println("¡CREANDO NUEVO ESTACIÓN!");
-
                 return null;
-            }
-
-            // GESTIONES ESPECÍFICAS
-            private void gestionesEspecificas() {
-                (new Menu(new GestionesEstacion())).empezar(); // Instanciamos el menú y las opciones de forma anónima.
-            }                      
+            }           
         };   
         
         Menu menu = new Menu(opciones);

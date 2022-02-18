@@ -31,13 +31,6 @@ public class Main {
 		System.out.println(gestor.objectWhatFile(new Cargamento("", "", "", 0.0, true)).getPath());
 		*/
 
-		// menu.empezar();
-
-		List<Nave> naves = new ArrayList<>();
-		naves.add(new Nave("NAV1", "NAVE1"));
-		naves.add(new Nave("NAV2", "NAVE2"));
-
-		
-		naves.forEach(System.out::println);
+		menu.empezar();
 	}
 }
