@@ -7,7 +7,6 @@ import java.util.List;
 import controller.gestiones.GestionesSGTE;
 import controller.menu.*;
 import model.domainobjects.*;
-import model.services.GestorSGTE;
 
 public class Main {
 	public static void main(String[] args) {

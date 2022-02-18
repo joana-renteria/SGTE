@@ -9,6 +9,7 @@ public class GestionesNave implements Opciones {
 		switch (opc) {
 			case "1": break;
 			case "2": break;
+			case "3": break;
 			default:
 				break;
 		}
@@ -19,7 +20,8 @@ public class GestionesNave implements Opciones {
 	public String[] getDescs() {	
 		return new String[]{
 			"Listar cargamento.",
-			"Mostrar recorrido."
+			"Mostrar recorrido.",
+			"Mostrar tipo"
 		};
 	}
     

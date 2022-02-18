@@ -1,6 +1,7 @@
 package controller.gestiones.especificas;
 
-import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import controller.menu.Opciones;
 import model.domainobjects.*;
@@ -8,9 +9,14 @@ import model.services.*;
 import util.Util;
 
 public class GestionesEstacion implements Opciones {
+	GestorArchivos<Historico> registros;
+	GestorArchivos<Nave> naves;
+	GestorArchivos<Cargamento> cargamentos;
 
 	public GestionesEstacion() {
-
+		registros = new GestorArchivos<>("historico.dat", Historico.class);
+		naves = new GestorArchivos<>("naves.dat", Nave.class);
+		cargamentos =  new GestorArchivos<>("cargamentos.dat", Cargamento.class);
 	}
 
 	@Override
@@ -18,10 +24,7 @@ public class GestionesEstacion implements Opciones {
 		switch (opc) {
 		case "1": mostrarRegistros(); break;
 		case "2": listarNavesAcopladas(); break;
-		case "3": buscarNavesAcopladasByCodigo(); break;
-		case "4": buscarNavesAcopladasByNombre(); break;
-		case "5": mostrarCargamento(); break;
-		case "6": buscarCargamento(); break;
+		case "3": mostrarCargamento(); break;
 		default:
 			break;
 		}  
@@ -32,53 +35,50 @@ public class GestionesEstacion implements Opciones {
 		String[] extDescs = new String[]{
 				"Mostrar registros en el histórico.",
 				"Mostrar naves acopladas actualmente.",
-				"Buscar naves acopladas por código.",
-				"Buscar naves acopladas por nombre.",
-				"Mostrar cargamento.",
-				"Buscar cargamento por código."
+				"Mostrar cargamento."
 		};
 		return extDescs;
 	}
 	
 	private String pedirCodigo() {
-		System.out.println("Introduce el codigo de la estación: ");
+		System.out.print("Introduce el codigo de la estación: ");
 		return Util.introducirCadena();
 	}
 
 	public void mostrarRegistros() {
-		GestorArchivos.fileIteratior(new File("historico.dat"),
-				(p -> {
-					if (Historico.class.cast(p)
-						.getCodEstacion().equals(pedirCodigo()))
-						System.out.println(p);
-				}));
+		registros.foreach(r -> {
+					if (r.getCodEstacion().equals(pedirCodigo()))
+						System.out.println(r);
+				});
 	}
 
 	public void listarNavesAcopladas() {
-		GestorArchivos.fileIteratior(new File("historico.dat"),
-				(p -> {
-					if (Historico.class.cast(p)
-						.getCodEstacion().equals(pedirCodigo()))
-						if(Historico.class.cast(p)
-								.getHoraSalida().equals(null))
-									System.out.println(p.getCodNave());
-				}));
-	}
-
-	public void buscarNavesAcopladasByCodigo() {
-		
-	}
-
-	public void buscarNavesAcopladasByNombre() {
-		
+		registros.foreach(r -> {
+			if (r.getHoraSalida() == null) // Si no tiene hora de salida.
+				System.out.println(naves.firstMatch(n -> n.getCodigo().equals(r.getCodNave()))); // Imprímase la nave con tal código.
+		});
 	}
 
 	public void mostrarCargamento() {
+		registros.foreach(r -> {
+			List<String> cods = new ArrayList<>();
+			
+			if (r.getCodEstacion().equals(pedirCodigo())){ // Los registros de la estación introducida por el usuario.
+				String codDescargado = r.getCodDescargado();
 
+				if (codDescargado != null && !cods.contains(codDescargado)){ // Si alguna vez se ha descargado en la estación y lo hemos evaluado anteriormente.
+					cods.add(codDescargado);
+
+					Historico ultimoCargo = registros.lastMatch(r2 -> r2.getCodCargado().equals(r.getCodCargado())); // Último registro en el que es cargado a la nave.
+					Historico ultimoDescargo = registros.lastMatch(r2 -> r2.getCodDescargado().equals(codDescargado)); // Último registro en el que es descargado a la estación.
+
+					// Si la última vez que salió de la nave fue después de la última vez que entró, etonces el cargamento no está.
+					// Solo si eso NO se cumple, se muestra el cargamento.
+					if (!ultimoCargo.getHoraSalida().isAfter(ultimoDescargo.getHoraEntrada())) {
+						System.out.println(cargamentos.firstMatch(c -> c.getCodigo().equals(codDescargado)));
+					}
+				}
+			}
+		});
 	}
-	
-	public void buscarCargamento() {
-
-	}
-
 }

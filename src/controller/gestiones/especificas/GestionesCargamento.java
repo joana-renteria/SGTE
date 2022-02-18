@@ -7,8 +7,8 @@ public class GestionesCargamento implements Opciones {
 	@Override
 	public void ejecutarByNum(String opc) {
 		switch (opc) {
-			case "1": break;
-			case "2": break;
+			case "1": mostrarRegistros(); break;
+			case "2": mostrarRuta(); break;
 			default:
 				break;
 		}
@@ -20,5 +20,13 @@ public class GestionesCargamento implements Opciones {
 			"Mostrar registros en el histórico.",
 			"Mostrar ruta."
 		};
+	}
+
+	public void mostrarRuta(){
+
+	}
+
+	public void mostrarRegistros(){
+
 	}
 }

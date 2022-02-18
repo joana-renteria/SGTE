@@ -1,7 +1,6 @@
 package model.domainobjects;
 
 import java.io.Serializable;
-import java.util.TooManyListenersException;
 
 public abstract class Nave implements Serializable, SistemaSGTE{
     

@@ -3,7 +3,7 @@ package model.domainobjects;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Historico implements Serializable, SistemaSGTE{
+public class Historico implements Serializable {
     private String codEstacion;
     private String codNave;
     private LocalDateTime horaEntrada;

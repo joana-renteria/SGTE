@@ -9,15 +9,22 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.function.Function;
 
-public class GestorArchivos {
-    // Devuelve true si ha podido añadirse, false si no.
-	public static boolean addObject(File fich, Object obj){
+public class GestorArchivos<T> extends File{
+    Class<T> clazz;
 
-		boolean fichExists = fich.exists(); // Comprobamos si existe antes de hacer nada con él.
+    public GestorArchivos(String path, Class<T> clazz){
+        super(path);
+        this.clazz = clazz;
+    }
+
+    // Devuelve true si ha podido añadirse, false si no.
+	public boolean addObject(Object obj){
+
+		boolean fichExists = this.exists(); // Comprobamos si existe antes de hacer nada con él.
 
 		try {
 			// Se inicializan los Stream como si el archivo existiera para no sobreescribir en caso de que lo hiciera.
-			FileOutputStream fos = new FileOutputStream(fich, true);
+			FileOutputStream fos = new FileOutputStream(this, true);
 			ObjectOutputStream oos = new ObjectOutputStream(fos){
 				protected void writeStreamHeader() throws IOException{
 					reset();
@@ -26,7 +33,7 @@ public class GestorArchivos {
 
 			// Si es que no existe se crea.
 			if(!fichExists){
-				fos = new FileOutputStream(fich); 
+				fos = new FileOutputStream(this); 
 				oos = new ObjectOutputStream(fos);
 			}
 
@@ -44,13 +51,13 @@ public class GestorArchivos {
 	}
 
     // Recorre los objetos de un archivo y le aplica la función Consumer.
-    public static boolean fileIteratior(File fich, ThrowerConsumer<Object> consum){
+    public boolean foreach(ThrowerConsumer<T> consum){
         try {
-            FileInputStream fis = new FileInputStream(fich);
+            FileInputStream fis = new FileInputStream(this);
             ObjectInputStream ois = new ObjectInputStream(fis);
 
             try {
-                for(;;) consum.accept(ois.readObject());
+                for(;;) consum.accept(this.clazz.cast(ois.readObject())); // Casteamos el objeto a tipo T.
             } catch (EOFException e) {
                 // Se han leído todos los objetos del archivo.
                 ois.close();
@@ -65,15 +72,15 @@ public class GestorArchivos {
     }
 
     // Recorre un archivo e implementa los cambios en uno nuevo.
-    public static boolean fileManipulation(File fich, Function<Object, Boolean> func, ThrowerBiConsumer<ObjectOutputStream, Object> consum){
+    public boolean fileManipulation(Function<T, Boolean> func, ThrowerBiConsumer<ObjectOutputStream, T> consum){
 
-		File auxFich = new File("." + fich.getPath() + ".sgteman");
+		File auxFich = new File("." + this.getPath() + ".sgteman");
 
 		try {
 			FileOutputStream fos = new FileOutputStream(auxFich);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 
-            fileIteratior(fich, (obj) -> {
+            this.foreach((obj) -> {
                 if (func.apply(obj)) consum.accept(oos, obj);
                 else oos.writeObject(obj);
             });
@@ -86,45 +93,63 @@ public class GestorArchivos {
             return false;
 		}
 
+        // Eliminar el anterior
+        // Renombrar este
+
         return true;
 	}
 
-    // Devuelve el primer objeto que coincida con el predicado.
-    public static Object firstMatch(File fich, Function<Object, Boolean> func){
-        Object obj = null;
+    private T match(Function<T, Boolean> func, boolean first){
+        T t = null;
 
         try {
-            FileInputStream fis = new FileInputStream(fich);
+            FileInputStream fis = new FileInputStream(this);
             ObjectInputStream ois = new ObjectInputStream(fis);
 
             try {
+                T obj; 
+
                 for(;;) {
-                    obj = ois.readObject();
-                    if (func.apply(obj)) break;       
+                    obj = this.clazz.cast(ois.readObject());
+                    if (func.apply(obj)){
+                        t = obj;
+                        if (first) break;
+                    }       
                 }
             } catch (EOFException e) {
                 // Se han leído todos los objetos del archivo.
-                ois.close();
-                fis.close();
             }
+
+            ois.close();
+            fis.close();
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Error, no han podido leerse objetos.");
             return null;
         }
 
-        return obj;
+        return t;
+    }
+
+    // Devuelve el primer objeto que coincida con el predicado.
+    public T firstMatch(Function<T, Boolean> func){
+        return this.match(func, true);
+    }
+
+    // Devuelve el último objeto que coincida con el predicado.
+    public T lastMatch(Function<T, Boolean> func){
+        return this.match(func, false); // False porque no queremos que nos devuelva la primera coincidencia sino la última.
     }
 
 	// Devuelve true si ha podido realizar reemplazar el objeto.
-	public static boolean replaceObject(File fich, Function<Object, Boolean> func, Object newObj){
-		return fileManipulation(fich, func, (oos, obj) -> {
+	public boolean replaceObject(Function<T, Boolean> func, Object newObj){
+		return fileManipulation(func, (oos, obj) -> {
             oos.writeObject(newObj); // Añadimos el nuevo objeto pero no el anterior.
         });
 	}
 
 	// Devuelve true si ha podido eliminarlo, false si no.
-	public static boolean deleteObject(File fich, Function<Object, Boolean> func){
-		return fileManipulation(fich, func, (oos, obj) -> {}); // No se realiza ninguna acción de inserción.
+	public boolean deleteObject(Function<T, Boolean> func){
+		return fileManipulation(func, (oos, obj) -> {}); // No se realiza ninguna acción de inserción.
 	}
 
     /* INTERFACES PERSONALIZADAS */
