@@ -14,6 +14,12 @@ public class Estacion implements Serializable, SistemaSGTE{
 		this.localizacion = localizacion;
 	}
 
+	public String toString(){
+		return codigo + "\t" +
+			nombre + "\t" +
+			localizacion;
+	}
+
 	public String getCodigo() {
 		return this.codigo;
 	}

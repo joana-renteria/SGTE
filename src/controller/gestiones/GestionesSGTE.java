@@ -38,7 +38,7 @@ public class GestionesSGTE implements Opciones{
 
     /* NAVES */
     private void gestionesNaves() {
-        GestionesDO<Nave> opciones = new GestionesDO<>("nave.") {
+        GestionesDO<Nave> opciones = new GestionesDO<>(Nave.class) {
 
             @Override
             public String[] getDescs() {
@@ -54,8 +54,9 @@ public class GestionesSGTE implements Opciones{
             @Override
             public void extendEjecutarByNum(String opc) {
                 switch (opc) {
-                    case "4": System.out.println(inputDatos()); break; // GestionesCRUD solo tiene 3 opciones por lo que siempre se empieza por 4.
-                    case "5": (new Menu(new GestionesNave())).empezar(); break; // Comenzar las gestiones específicas de las naves.
+                    case "5": System.out.println(inputDatos());
+                        break; 
+                    case "6": (new Menu(new GestionesNave())).empezar(); break; // Comenzar las gestiones específicas de las naves.
                     default:
                         break;
                 }  
@@ -122,7 +123,7 @@ public class GestionesSGTE implements Opciones{
 
     /* CARGAMENTOS */
     private void gestionesCargamentos() {
-        GestionesDO<Cargamento> opciones = new GestionesDO<>("cargamento.") {
+        GestionesDO<Cargamento> opciones = new GestionesDO<>(Cargamento.class) {
 
             @Override
             public String[] getDescs() {
@@ -138,8 +139,8 @@ public class GestionesSGTE implements Opciones{
             @Override
             public void extendEjecutarByNum(String opc) {
                 switch (opc) {
-                    case "4": System.out.println(inputDatos()); break; // GestionesCRUD solo tiene 3 opciones por lo que siempre se empieza por 4.
-                    case "5": (new Menu(new GestionesCargamento())).empezar(); break;
+                    case "5": System.out.println(inputDatos()); break; // GestionesCRUD solo tiene 3 opciones por lo que siempre se empieza por 4.
+                    case "6": (new Menu(new GestionesCargamento())).empezar(); break;
                     default:
                         break;
                 }  
@@ -169,7 +170,7 @@ public class GestionesSGTE implements Opciones{
 
     /* ESTACIONES */
     private void gestionesEstaciones() {
-        GestionesDO<Estacion> opciones = new GestionesDO<>("estación.") {
+        GestionesDO<Estacion> opciones = new GestionesDO<>(Estacion.class) {
 
             @Override
             public String[] getDescs() {
@@ -185,8 +186,8 @@ public class GestionesSGTE implements Opciones{
             @Override
             public void extendEjecutarByNum(String opc) {
                 switch (opc) {
-                    case "4": System.out.println(inputDatos()); break; // GestionesCRUD solo tiene 3 opciones por lo que siempre se empieza por 4.
-                    case "5": (new Menu(new GestionesEstacion())).empezar(); break;
+                    case "5": System.out.println(inputDatos()); break; // GestionesCRUD solo tiene 3 opciones por lo que siempre se empieza por 4.
+                    case "6": (new Menu(new GestionesEstacion())).empezar(); break;
                     default:
                         break;
                 }  

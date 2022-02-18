@@ -18,7 +18,7 @@ public class GestorArchivos<T> extends File{
     }
 
     // Devuelve true si ha podido añadirse, false si no.
-	public boolean addObject(Object obj){
+	public boolean addObject(T obj){
 
 		boolean fichExists = this.exists(); // Comprobamos si existe antes de hacer nada con él.
 
@@ -43,7 +43,9 @@ public class GestorArchivos<T> extends File{
 			fos.close();
 			
 		} catch (IOException e) {
-			System.out.println("Error, no ha podido añadirse el objeto.");
+			System.out.println("Error, no ha podido añadirse el objeto. (ADDOBJECT)");
+            System.out.print("El motivo es: " + e);
+
 			return false;
 		}
 
@@ -60,11 +62,19 @@ public class GestorArchivos<T> extends File{
                 for(;;) consum.accept(this.clazz.cast(ois.readObject())); // Casteamos el objeto a tipo T.
             } catch (EOFException e) {
                 // Se han leído todos los objetos del archivo.
-                ois.close();
-                fis.close();
             }
+
+            ois.close();
+            fis.close();
+
+        } catch (EOFException e){
+            System.out.println("El archivo " + this.getPath() + " está vacío...");
+
+            return false;
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Error, no han podido leerse objetos.");
+            System.out.println("(FOREACH) - Error, no han podido leerse objetos en " + this.getPath() + ".");
+            System.out.print("El motivo es: " + e);
+
             return false;
         }
 
@@ -89,7 +99,9 @@ public class GestorArchivos<T> extends File{
 			fos.close();
 
 		} catch (IOException e) {
-			System.out.println("Error, no se ha podido modificar el archivo.");
+			System.out.println("Error, no se ha podido modificar el archivo. (FILEMANIPULATION)");
+            System.out.print("El motivo es: " + e);
+
             return false;
 		}
 
@@ -123,7 +135,9 @@ public class GestorArchivos<T> extends File{
             ois.close();
             fis.close();
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Error, no han podido leerse objetos.");
+            System.out.println("Error, no han podido leerse objetos. (MATCH)");
+            System.out.print("El motivo es: " + e);
+
             return null;
         }
 

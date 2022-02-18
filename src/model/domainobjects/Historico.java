@@ -3,7 +3,7 @@ package model.domainobjects;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Historico implements Serializable {
+public class Historico implements Serializable, SistemaSGTE {
     private String codEstacion;
     private String codNave;
     private LocalDateTime horaEntrada;
@@ -86,5 +86,15 @@ public class Historico implements Serializable {
 
     public void setRazon(String razon) {
         this.razon = razon;
+    }
+
+    @Override
+    public String getCodigo() {
+        return null;
+    }
+
+    @Override
+    public void setCodigo(String codigo) {
+        return;        
     }
 }
