@@ -11,25 +11,4 @@ public class Nave implements Serializable, SistemaSGTE{
 		this.codigo = pCodigo;
 		this.nombre = pNombre;
 	}
-
-	public String toString(){
-		return "Código: " + codigo + "\t"
-			+ "Nombre: " + nombre;
-	}
-	
-	public String getCodigo() {
-		return this.codigo;
-	}
-
-	public String getNombre() {
-		return this.nombre;
-	}
-	
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public Nave name() {
-		return new Nave(pCodigo);
-	}
 }

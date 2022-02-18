@@ -9,7 +9,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.function.Function;
 
-public class GestorArchivos {
+public class GestorArchivos<T> {
+    T clazz;
+
+    public GestorArchivos(T clazz){
+        this.clazz = clazz;
+    }
     // Devuelve true si ha podido añadirse, false si no.
 	public static boolean addObject(File fich, Object obj){
 

@@ -17,26 +17,5 @@ public class Estacion implements Serializable, SistemaSGTE{
 		this.codigo = pCodigo;
 		this.nombre = pNombre;
 		this.localizacion = pLoc;
-	}
-
-	public String getCodigo() {
-		return this.codigo;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public String getLocalizacion() {
-		return localizacion;
-	}
-
-	public void setLocalizacion(String localizacion) {
-		this.localizacion = localizacion;
-	}
-	
+	}	
 }

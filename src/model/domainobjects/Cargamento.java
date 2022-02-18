@@ -16,42 +16,5 @@ public class Cargamento implements Serializable, SistemaSGTE{
 		this.tipo = pTipo;
 		this.peso = pPeso;
 		this.peligroso = pPeligroso;
-	}
-	
-	public String getCodigo() {
-		return this.codigo;
-	}
-
-	public String getDescripcion() {
-		return descripcion;
-	}
-
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
-
-	public String getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
-
-	public double getPeso() {
-		return peso;
-	}
-
-	public void setPeso(double peso) {
-		this.peso = peso;
-	}
-
-	public boolean isPeligroso() {
-		return peligroso;
-	}
-
-	public void setPeligroso(boolean peligroso) {
-		this.peligroso = peligroso;
-	}
-	
+	}	
 }
